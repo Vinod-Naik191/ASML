@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="color: #FFFFFF;">ASML: Strategic Talent Partner Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <!-- Chosen Palette: Your Brand Colors -->
+    <!-- Application Structure Plan: A top-to-bottom scrolling infographic narrative. This structure tells a story, starting with a high-level hook (KPIs), defining the business context (imperatives/challenges), providing data-driven evidence (hiring charts), and concluding with an actionable solution (Randstad's playbook). This linear flow is intuitive for an infographic, making complex sales strategy easy to digest. -->
+    <!-- Visualization & Content Choices: 
+        - KPIs (Inform): Large text stats for immediate impact. Method: HTML.
+        - Imperatives/Challenges (Organize/Compare): A two-column grid layout for direct comparison. Method: HTML/Tailwind.
+        - Hiring by Country (Compare Composition): Donut chart for a quick, visual breakdown of the whole. Library: Chart.js (Canvas).
+        - Hiring by Job Category (Compare Categories): Horizontal Bar Chart to clearly display rankings across many categories with long, wrapped labels. Library: Chart.js (Canvas).
+        - Randstad's Playbook (Organize/Relate): A stylized, multi-column card layout to present the sales levers as distinct, actionable strategies. Method: HTML/Tailwind.
+        - Justification: These choices create a visually dynamic and easy-to-follow narrative, transforming a dense text document into an engaging and memorable sales tool. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Tahoma', sans-serif; background-color: #0F1941; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 400px; max-height: 450px; }
+        @media (max-width: 768px) { .chart-container { height: 350px; max-height: 400px; } }
+        .kpi-card { background-color: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); text-align: center; border: 1px solid #e5e7eb; }
+        .section-title { font-size: 2.25rem; font-weight: 800; color: #FFFFFF; text-align: center; }
+        .section-subtitle { font-size: 1.125rem; color: #FFFFFF; text-align: center; max-width: 48rem; margin: 0.5rem auto 0 auto; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:px-8 md:py-12">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold" style="color: #FFFFFF;">Enabling ASML's Future</h1>
+            <p class="mt-4 text-xl md:text-2xl text-white-600" style="color: #FFFFFF;">A Strategic Partnership Playbook for Talent Acquisition</p>
+        </header>
+
+        <section id="kpis" class="mb-12 md:mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #2175D9;">367</p>
+                    <h3 class="mt-2 text-lg font-semibold text-gray-700">Current Open Vacancies</h3>
+                </div>
+                <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #2175D9;">€44-60B</p>
+                    <h3 class="mt-2 text-lg font-semibold text-gray-700">Revenue Target by 2030</h3>
+                </div>
+                <div class="kpi-card">
+                    <p class="text-6xl font-extrabold" style="color: #2175D9;">STEM</p>
+                    <h3 class="mt-2 text-lg font-semibold text-gray-700">Critical Talent Shortage</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="context" class="mb-12 md:mb-16">
+            <h2 class="section-title">The Strategic Landscape</h2>
+            <p class="section-subtitle">To be an effective partner, we must understand ASML's core drivers and their most significant talent-related obstacles. This context reveals clear opportunities for Randstad's intervention.</p>
+            <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border">
+                    <h3 class="text-2xl font-bold mb-4" style="color: #0F1941;">Core Business Imperatives</h3>
+                    <ul id="imperatives-list" class="space-y-3"></ul>
+                </div>
+                <div class="p-6 rounded-lg shadow-md border" style="background-color: #2175D9;">
+                    <h3 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Critical Talent Challenges</h3>
+                    <ul id="challenges-list" class="space-y-3"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-dive" class="mb-12 md:mb-16">
+            <h2 class="section-title">A Data-Driven Look at Hiring Needs</h2>
+            <p class="section-subtitle">The 367 open vacancies provide a clear map of ASML's immediate talent priorities. The data highlights a strong demand for engineering talent in key global hubs and customer-facing roles in expanding markets.</p>
+            <div class="mt-10 grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-2 flex items-center">
+                    <div class="chart-container">
+                        <canvas id="countryChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-3">
+                    <div class="chart-container" style="height: 500px; max-height: 550px;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="playbook" class="mb-12 md:mb-16">
+            <h2 class="section-title">Randstad's Strategic Playbook</h2>
+            <p class="section-subtitle">Positioning Randstad as a strategic enabler requires targeted solutions that directly address ASML's priorities. Here are the core sales levers to drive impactful conversations.</p>
+            <div id="playbook-grid" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+        
+        <section id="questions" class="bg-white p-8 rounded-lg shadow-lg border">
+            <h2 class="text-2xl md:text-3xl font-bold text-center" style="color: #0F1941;">Key Consultative Questions</h2>
+            <p class="section-subtitle">Use these questions to open strategic dialogues and uncover specific pain points where Randstad can provide the most value.</p>
+            <ul id="questions-list" class="mt-8 list-none space-y-4 max-w-4xl mx-auto"></ul>
+        </section>
+    </div>
+
+<script>
+    // Register the datalabels plugin
+    Chart.register(ChartDataLabels);
+
+    const infographicData = {
+        imperatives: [
+            { icon: '💡', text: '<strong>Technology & Product Leadership:</strong> Requires a constant pipeline of specialized technical talent.' },
+            { icon: '🤝', text: '<strong>Deepen Customer Trust:</strong> Needs talent focused on quality, efficiency, and strong client relations.' },
+            { icon: '🌐', text: '<strong>Strengthen Ecosystem Relationships:</strong> Demands an agile talent supply for partnerships.' },
+            { icon: '🏢', text: '<strong>Exceptional Workplace:</strong> Core focus on talent attraction, development, and D&I.' },
+            { icon: '⚙️', text: '<strong>Operational Excellence:</strong> Necessitates talent for process improvement and efficiency.' },
+            { icon: '🌱', text: '<strong>ESG Sustainability:</strong> Implies a need for talent in sustainable innovation.' }
+        ],
+        challenges: [
+            { icon: '🔥', text: '<strong>Intense STEM Talent Competition:</strong> Fierce battle for attracting and retaining technical professionals.' },
+            { icon: '📈', text: '<strong>Rapid Growth & Headcount Needs:</strong> Significant hiring volume needed to meet 2030 revenue targets.' },
+            { icon: '♀️', text: '<strong>Diversity & Inclusion Targets:</strong> Specific challenges in recruiting women in STEM and leadership.' },
+            { icon: '🌍', text: '<strong>Geopolitical Volatility:</strong> Uncertainty impacting talent mobility and compliance.' }
+        ],
+        hiring: {
+            countries: {
+                labels: ['US', 'Taiwan', 'China', 'Netherlands', 'Japan', 'Other'],
+                data: [93, 90, 68, 61, 22, 33]
+            },
+            categories: {
+                labels: ['Customer Support', 'Design Engineering & Architecture', 'Business Process Management', 'Manufacturing', 'Projects, Programs & Change', 'Research & Technology Development', 'Sourcing & Supply Chain Management', 'Legal, Compliance, Risk & Assurance', 'Human Resources', 'Applications Engineering', 'IT'],
+                data: [76, 59, 50, 25, 25, 24, 22, 19, 19, 14, 12],
+                annotations: {
+                    'Customer Support': '(33 in China)',
+                    'Design Engineering & Architecture': '(20 in US, 21 in Taiwan)',
+                    'Legal, Compliance, Risk & Assurance': '(13 in Netherlands)'
+                }
+            }
+        },
+        playbook: [
+            { title: "Partner for Global Expansion", desc: "Align with the 2030 vision by providing targeted talent sourcing in the US, Taiwan, China, and Netherlands." },
+            { title: "Conquer the STEM Talent War", desc: "Deploy specialized sourcing for high-demand roles like Design Engineering and R&D." },
+            { title: "Optimize Operational Agility", desc: "Offer flexible staffing for high-volume functions like Customer Support and Business Process Management." },
+            { title: "Elevate Employer Brand", desc: "Partner on initiatives to improve candidate experience and brand rankings, a key ASML focus." },
+            { title: "Accelerate D&I Goals", desc: "Provide targeted recruitment services to increase the representation of women in STEM and leadership." },
+            { title: "Navigate Global Compliance", desc: "Leverage our expertise in international talent mobility and regulations to mitigate geopolitical risks." }
+        ],
+        questions: [
+            { text: "With 367 vacancies across key regions, how are you preparing your workforce for the €44-60B revenue target?" },
+            { text: "Given the needs in Design Engineering in the US and Taiwan, what are your biggest hurdles in attracting niche technical expertise?" },
+            { text: "How are you managing compliance needs, like the 13 Legal roles in the Netherlands, amidst evolving global regulations?" },
+            { text: "To what extent are you exploring partnerships to build workforce agility for functions like Customer Support in China?"}
+        ]
+    };
+    
+    function wrapLabel(label, maxWidth) {
+        if (label.length <= maxWidth) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        });
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
+
+    const tooltipConfig = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        }
+                        return label;
+                    }
+                }
+            }
+        }
+    };
+
+    function renderLists() {
+        document.getElementById('imperatives-list').innerHTML = infographicData.imperatives.map(item =>
+            `<li class="flex items-start"><span class="text-2xl mr-3">${item.icon}</span><span>${item.text}</span></li>`
+        ).join('');
+        document.getElementById('challenges-list').innerHTML = infographicData.challenges.map(item =>
+            `<li class="flex items-start"><span class="text-2xl mr-3">${item.icon}</span><span style="color: white;">${item.text}</span></li>`
+        ).join('');
+        document.getElementById('playbook-grid').innerHTML = infographicData.playbook.map((item, index) => {
+            const colors = [
+                { bg: '#E6FF00', text: '#0F1941', title: '#0F1941' },
+                { bg: '#2175D9', text: 'white', title: 'white' },
+                { bg: '#6BA5B4', text: 'white', title: 'white' },
+                { bg: '#0F1941', text: 'white', title: '#E6FF00' },
+                { bg: '#E6FF00', text: '#0F1941', title: '#0F1941' },
+                { bg: '#2175D9', text: 'white', title: 'white' }
+            ];
+            const color = colors[index % colors.length];
+            return `<div class="p-6 rounded-lg shadow-md border hover:shadow-xl transition-shadow duration-300" style="background-color: ${color.bg};">
+                <h4 class="font-bold text-lg mb-2" style="color: ${color.title};">${item.title}</h4>
+                <p class="text-sm" style="color: ${color.text};">${item.desc}</p>
+            </div>`
+        }).join('');
+        document.getElementById('questions-list').innerHTML = infographicData.questions.map(item =>
+            `<li class="flex items-center p-4 rounded-lg" style="background-color: #F7F5F0;">
+                <span class="text-2xl mr-4 font-bold" style="color: #2175D9;">?</span>
+                <span class="text-gray-700">${item.text}</span>
+            </li>`
+        ).join('');
+    }
+
+    function renderCharts() {
+        const countryCtx = document.getElementById('countryChart').getContext('2d');
+        new Chart(countryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: infographicData.hiring.countries.labels,
+                datasets: [{
+                    label: 'Vacancies by Country',
+                    data: infographicData.hiring.countries.data,
+                    backgroundColor: ['#0F1941', '#2175D9', '#6BA5B4', '#E6FF00', '#F7F5F0', '#d1d5db'],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: { 
+                ...tooltipConfig, 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    ...tooltipConfig.plugins, 
+                    legend: { 
+                        position: 'bottom',
+                        labels: {
+                            color: 'white'
+                        }
+                    }, 
+                    title: { 
+                        display: true, 
+                        color: 'white', 
+                        text: 'Vacancy Distribution by Region', 
+                        font: {size: 16} 
+                    },
+                    datalabels: {
+                        color: 'white',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        formatter: (value, ctx) => {
+                            return value;
+                        }
+                    }
+                } 
+            }
+        });
+
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryLabels = infographicData.hiring.categories.labels.map(label => wrapLabel(label, 20));
+        const categoryDataWithAnnotations = infographicData.hiring.categories.labels.map((label, index) => {
+            const annotation = infographicData.hiring.categories.annotations[label];
+            return annotation ? `${label} ${annotation}` : label;
+        });
+
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: categoryLabels,
+                datasets: [{ 
+                    label: 'Vacancies by Category',
+                    data: infographicData.hiring.categories.data,
+                    backgroundColor: '#6BA5B4',
+                    borderColor: '#2175D9',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...tooltipConfig,
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { 
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    y: { 
+                        ticks: { 
+                            font: { size: 10 },
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    ...tooltipConfig.plugins,
+                    legend: { display: false },
+                    title: { 
+                        display: true, 
+                        color: 'white', 
+                        text: 'Top Hiring Job Categories', 
+                        font: {size: 16} 
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: function(tooltipItems) {
+                                const index = tooltipItems[0].dataIndex;
+                                return infographicData.hiring.categories.labels[index];
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: 'white',
+                        font: {
+                            size: 11,
+                            weight: 'bold'
+                        },
+                        anchor: 'end',
+                        align: 'right',
+                        formatter: (value, ctx) => {
+                            return value;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = () => {
+        renderLists();
+        renderCharts();
+    };
+</script>
+
+</body>
+</html>
